@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
-import { ITransferPayload } from 'src/types';
+import { ITransferPayload } from '../../types';
 
 
 export class CreateTransactionInput {
@@ -29,7 +29,7 @@ export class CreateTransactionInput {
   fees: number;
 }
 
-export class createTransaction implements ITransferPayload {
+export class CreateTransactionPayload implements ITransferPayload {
   @IsNotEmpty()
   @Type(() => CreateTransactionInput)
   input: CreateTransactionInput;

@@ -6,7 +6,7 @@ export class CmcService {
     constructor() { }
     async getCoinsListing(): Promise<object> {
 
-        // eslint-disable-next-line turbo/no-undeclared-env-vars
+         
         const CMC_PRO_API_KEY = process.env.CMC_PRO_API_KEY;
 
         const headers = {

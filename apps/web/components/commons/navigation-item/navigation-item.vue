@@ -1,7 +1,8 @@
 <script setup lang="ts">
 defineProps({
   title: {
-    type: String
+    type: String,
+    default: ''
   },
   link: {
     type: String,

@@ -6,28 +6,27 @@ A personal finance app, built as a side project. Its first feature is a crypto p
 
 | Layer    | Tech                                                     |
 | -------- | -------------------------------------------------------- |
-| Monorepo | Turborepo, pnpm workspaces                               |
-| Frontend | Nuxt 3, Vue 3 (Composition API), Pinia, TypeScript       |
-| Backend  | NestJS, Mongoose, Swagger, Winston                       |
+| Monorepo | Turborepo 2, pnpm workspaces                             |
+| Frontend | Nuxt 4, Vue 3 (Composition API), Pinia, TypeScript       |
+| Backend  | NestJS 12, Mongoose 9, Swagger, Winston                  |
 | Database | MongoDB                                                  |
 | Data     | Static coin list (CoinMarketCap integration in progress) |
-| Tooling  | ESLint (shared config package), Prettier, Husky          |
+| Tooling  | ESLint 10 (flat config), Prettier, Vitest                |
 
 ## Repository layout
 
 ```
 apps/
-  web/                    Nuxt 3 front end (portfolio view, dashboard placeholder)
-  api/                    NestJS REST API (portfolios, transactions)
-packages/
-  eslint-config-custom/   ESLint config shared across the workspace
+  web/    Nuxt 4 front end (portfolio view, dashboard placeholder)
+  api/    NestJS REST API (portfolios, transactions)
+eslint.config.js          ESLint config for the whole workspace
 ```
 
 ## Getting started
 
 ### Prerequisites
 
-- Node.js 20.19+ or 22.12+
+- Node.js 24+
 - pnpm 8: run `corepack enable` to use the version pinned in `package.json`, or `npm install -g pnpm@8` if corepack fails on your Node version
 - A MongoDB instance (local or Atlas)
 
@@ -56,7 +55,7 @@ export MONGO_URI="mongodb://localhost:27017/personal-finance-tracker"
 pnpm test
 ```
 
-Runs the Vitest unit tests for the portfolio calculations.
+Runs the Vitest unit tests for the portfolio calculations. `pnpm lint` runs ESLint on the whole workspace.
 
 ### Run
 

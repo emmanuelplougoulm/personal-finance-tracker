@@ -1,4 +1,4 @@
-export interface ITransaction {
+export interface TransactionRecord {
   __v?: number;
   _id?: string;
   amount: number;
@@ -12,11 +12,11 @@ export interface ITransaction {
   type: string;
 }
 
-const isBuy = (transaction: ITransaction) => transaction.type === 'BUY';
+const isBuy = (transaction: TransactionRecord) => transaction.type === 'BUY';
 const toNumber = (value: unknown) => Number(value) || 0;
 
 /** Units currently held: bought minus sold. */
-export const calculateTokenHoldings = (transactions: ITransaction[]): number =>
+export const calculateTokenHoldings = (transactions: TransactionRecord[]): number =>
   transactions.reduce(
     (sum, t) => (isBuy(t) ? sum + toNumber(t.amount) : sum - toNumber(t.amount)),
     0
@@ -26,7 +26,7 @@ export const calculateTokenHoldings = (transactions: ITransaction[]): number =>
  * Average buy price, weighted by the quantity of each buy (fees excluded).
  * Returns null when there is no buy.
  */
-export const calculateAvgBuyPrice = (transactions: ITransaction[]): number | null => {
+export const calculateAvgBuyPrice = (transactions: TransactionRecord[]): number | null => {
   const buys = transactions.filter(isBuy);
   const quantity = buys.reduce((sum, t) => sum + toNumber(t.amount), 0);
   if (quantity === 0) return null;
@@ -39,7 +39,7 @@ export const calculateAvgBuyPrice = (transactions: ITransaction[]): number | nul
  * Amount invested in the units still held, fees included.
  * Uses the average cost method: each sale removes units at the average cost per unit.
  */
-export const calculateInvested = (transactions: ITransaction[]): number => {
+export const calculateInvested = (transactions: TransactionRecord[]): number => {
   const buys = transactions.filter(isBuy);
   const quantity = buys.reduce((sum, t) => sum + toNumber(t.amount), 0);
   if (quantity === 0) return 0;

@@ -1,4 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 import mongoose from 'mongoose';
 import { logger } from './utils/logger';
 

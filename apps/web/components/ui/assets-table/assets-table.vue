@@ -5,11 +5,11 @@ import {
   calculateTokenHoldings,
   calculateAvgBuyPrice,
   calculateInvested,
-  type ITransaction
+  type TransactionRecord
 } from '@/utils/index';
 
 const props = defineProps<{
-  assets: ITransaction[][];
+  assets: TransactionRecord[][];
 }>();
 
 const displayReadyAssets = computed(() =>

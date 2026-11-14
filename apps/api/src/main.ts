@@ -2,26 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { dbConnection } from './db';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as cors from 'cors';
 
 
 async function bootstrap() {
-  // const { hostname, port }: any = config.get('api');
-
-  // const appConfig = {
-  //   port,
-  //   host: hostname,
-  //   transport: Transport.RMQ,
-  //   options: { ...options, urls: brokerUrls },
-  // };
-
-  // const { npm_package_name: name, npm_package_version: version } = process.env;
-
   await dbConnection();
 
   const app = await NestFactory.create(AppModule);
 
-  app.use(cors());
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle('Personal Finance Tracker API')

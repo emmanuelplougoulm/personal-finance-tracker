@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { TransactionService } from '../../services/transaction.service';
 import * as val from './validation';
@@ -7,7 +7,7 @@ import * as val from './validation';
 export class TransactionController {
     constructor(private readonly transactionService: TransactionService) { }
     @Post()
-    async createTransaction(@Body() payload: val.createTransaction): Promise<object> {
+    async createTransaction(@Body() payload: val.CreateTransactionPayload): Promise<object> {
         try {
             const { input } = payload;
             return await this.transactionService.createOneTransaction(input)

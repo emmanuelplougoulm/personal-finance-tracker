@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { reactive } from 'vue';
 import dayjs from 'dayjs';
 import BaseModal from '@/components/commons/base-modal/base-modal.vue';
@@ -11,7 +10,7 @@ import { usePortfolioStore } from '@/stores/portfolioStore';
 const portfolioStore = usePortfolioStore();
 
 defineProps({
-  title: String
+  title: { type: String, default: '' }
 });
 
 const timeNow = dayjs();

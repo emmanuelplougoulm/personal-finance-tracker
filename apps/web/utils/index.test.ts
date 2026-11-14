@@ -5,10 +5,10 @@ import {
   calculateTokenHoldings,
   formatAmount,
   formatQuantity,
-  type ITransaction
+  type TransactionRecord
 } from './index';
 
-const tx = (type: 'BUY' | 'SELL', amount: number, price: number, fees = 0): ITransaction => ({
+const tx = (type: 'BUY' | 'SELL', amount: number, price: number, fees = 0): TransactionRecord => ({
   type,
   amount,
   price,

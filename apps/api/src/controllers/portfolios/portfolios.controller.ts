@@ -7,7 +7,7 @@ import * as val from './validation';
 export class PortfoliosController {
     constructor(private readonly portfoliosService: PortfoliosService) { }
     @Post()
-    async createOnePortfolio(@Body() payload: val.createPortfolio): Promise<any> {
+    async createOnePortfolio(@Body() payload: val.CreatePortfolioPayload): Promise<any> {
         try {
             const { input } = payload;
             return await this.portfoliosService.createPortfolio(input);

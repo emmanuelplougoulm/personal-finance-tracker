@@ -4,7 +4,7 @@ import { deletePortfolioById } from '@/services/portfolios/portfolios.service';
 import { usePortfolioStore } from '@/stores/portfolioStore';
 
 defineProps({
-  title: String
+  title: { type: String, default: '' }
 });
 
 const emit = defineEmits(['modal-close']);
@@ -13,13 +13,7 @@ const portfolioStore = usePortfolioStore();
 const id = portfolioStore.active.portfolioId;
 
 const handleDeletePortfolio = async () => {
-  const response = await deletePortfolioById(id);
-
-  if (response.deletedCount === 1) {
-    // toast.add({ title: 'Portfolio has been successfully deleted' });
-  } else {
-    // toast.add({ title: 'Error' });
-  }
+  await deletePortfolioById(id);
   emit('modal-close');
 };
 </script>

@@ -1,24 +1,29 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
-  "pipeline": {
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
+  "globalEnv": [
+    "NODE_ENV"
+  ],
+  "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".nuxt/**"]
-    },
-    "build:prod": {
-      "outputs": ["dist/**", ".nuxt/**", "storybook-static/**"]
-    },
-    "generate": {
-      "dependsOn": ["^generate"],
-      "outputs": ["dist/**", ".nuxt/**"],
-      "cache": false
-    },
-    "lint": {
-      "outputs": []
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".nuxt/**",
+        ".output/**"
+      ]
     },
     "dev": {
-      "cache": false
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "MONGO_URI",
+        "CMC_PRO_API_KEY"
+      ]
     }
   }
 }

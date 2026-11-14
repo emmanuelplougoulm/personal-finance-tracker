@@ -6,6 +6,7 @@ import NavigationItem from '@/components/commons/navigation-item/navigation-item
   <div class="header-container">
     <div class="app-logo">LOGO</div>
     <select v-model="$colorMode.preference">
+      <option value="system">System</option>
       <option value="light">Light</option>
       <option value="dark">Dark</option>
     </select>

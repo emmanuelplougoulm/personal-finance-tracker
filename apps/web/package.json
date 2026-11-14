@@ -11,20 +11,16 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@nuxtjs/color-mode": "^3.5.2",
-    "eslint": "^8.57.1",
-    "eslint-config-custom": "workspace:*",
-    "eslint-plugin-vue": "^9.33.0",
-    "nuxt": "^3.21.11",
+    "@nuxtjs/color-mode": "^4.1.0",
+    "nuxt": "^4.6.4",
     "sass": "^1.108.2",
     "vitest": "^5.1.0",
     "vue": "^3.5.45",
-    "vue-router": "^4.6.5"
+    "vue-router": "^5.5.1"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.5.5",
-    "@vueuse/core": "^10.11.1",
-    "axios": "^1.21.1",
-    "pinia": "^2.3.1"
+    "@pinia/nuxt": "^1.0.3",
+    "@vueuse/core": "^15.0.0",
+    "pinia": "^4.1.0"
   }
 }

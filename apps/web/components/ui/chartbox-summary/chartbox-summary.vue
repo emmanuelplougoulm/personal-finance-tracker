@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { usePortfolioStore } from '@/stores/portfolioStore';
-import { calculateInvested, formatAmount, type ITransaction } from '@/utils/index';
+import { calculateInvested, formatAmount, type TransactionRecord } from '@/utils/index';
 
 const store = usePortfolioStore();
 
 const invested = computed(() => {
-  const assets = (store.activePortfolio?.assets ?? []) as ITransaction[][];
+  const assets = (store.activePortfolio?.assets ?? []) as TransactionRecord[][];
   return assets.reduce((sum, transactions) => sum + calculateInvested(transactions), 0);
 });
 </script>

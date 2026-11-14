@@ -1,6 +1,6 @@
 https://medium.com/@romanvinnick/vue3-composition-api-creating-a-reusable-modal-component-with-outside-click-handling-43e830d289c1
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from 'vue';
+import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 
 defineProps({

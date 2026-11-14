@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import Transaction from '../models/transaction';
-import { ITransaction } from 'src/types/index';
+import { ITransaction } from '../types/index';
 import { randomUUID } from 'node:crypto';
 
 @Injectable()

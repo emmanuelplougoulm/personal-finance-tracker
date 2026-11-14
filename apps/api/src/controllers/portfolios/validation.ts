@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsString, IsNotEmpty } from 'class-validator';
-import { ITransferPayload } from 'src/types';
+import { ITransferPayload } from '../../types';
 
 
 export class CreatePortfolioInput {
@@ -20,7 +20,7 @@ export class CreatePortfolioInput {
   assets: object[];
 }
 
-export class createPortfolio implements ITransferPayload {
+export class CreatePortfolioPayload implements ITransferPayload {
   @IsNotEmpty()
   @Type(() => CreatePortfolioInput)
   input: CreatePortfolioInput;

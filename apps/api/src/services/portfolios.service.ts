@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import Portfolio from '../models/portfolio';
 import { randomUUID } from 'node:crypto';
-import { IPortfolio } from 'src/types/index';
+import { IPortfolio } from '../types/index';
 import { TransactionService } from "../services/transaction.service";
 import { formatTransactionsByAssets } from "../utils/format";
 
