@@ -40,8 +40,10 @@ function getInitialState() {
 let state = reactive(getInitialState());
 
 const handleNewTransaction = async () => {
+  const { quantity, ...rest } = state;
   const newTransaction = {
-    ...state,
+    ...rest,
+    amount: Number(quantity),
     portfolioId: activePortfolioId.value,
     asset: state.asset.value
   };

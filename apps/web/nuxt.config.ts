@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     public: {
     }
   },
+  routeRules: {
+    '/': { redirect: '/portfolio' },
+  },
   devtools: { enabled: true },
 })
 

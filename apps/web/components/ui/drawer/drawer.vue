@@ -21,6 +21,8 @@ onMounted(async () => {
   const allPortfolios = await getPortfolios();
   portfolioStore.setPortfolios(allPortfolios);
 
+  if (!allPortfolios?.length) return;
+
   const firstPortfolio = await getPortfolioById(allPortfolios[0].portfolioId);
   portfolioStore.setActivePortfolio(firstPortfolio);
 });
