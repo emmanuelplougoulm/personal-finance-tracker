@@ -82,7 +82,6 @@ let optionsCoins = computed(() => {
       <BaseInput v-model="state.price" class="input-item" :label="'Price'" />
       <BaseInput v-model="state.date" :label="'Date'" />
       <BaseInput v-model="state.fees" :label="'Fees'" />
-      <!-- <div>TODO CALCULATE TOTAL</div> -->
       <button @click="handleNewTransaction">Validate</button>
     </div>
   </div>

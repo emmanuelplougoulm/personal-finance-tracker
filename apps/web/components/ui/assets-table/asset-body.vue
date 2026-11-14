@@ -1,32 +1,26 @@
 <script setup lang="ts">
-const props = defineProps({
-  asset: {
-    type: Object,
-    default: () => {}
-  }
-});
+import { formatAmount, formatQuantity } from '@/utils/index';
 
-const { holdings, name, avgBuyPrice } = props.asset;
+defineProps<{
+  asset: {
+    name: string;
+    holdings: number;
+    avgBuyPrice: number | null;
+    invested: number;
+  };
+}>();
 </script>
 
 <template>
   <tbody>
     <tr>
-      <td>{{ name }}</td>
-      <td>WIP</td>
-      <!-- <td>WIP</td>
-      <td>WIP</td>
-      <td>WIP</td> -->
-      <td>
-        <div>{{ holdings.totalValue }}</div>
-        <div>{{ holdings.totalToken }} {{ name }}</div>
-      </td>
-      <td>{{ avgBuyPrice }}</td>
-      <td>WIP</td>
+      <td>{{ asset.name }}</td>
+      <td>{{ formatQuantity(asset.holdings) }} {{ asset.name }}</td>
+      <td>{{ formatAmount(asset.avgBuyPrice) }}</td>
+      <td>{{ formatAmount(asset.invested) }}</td>
     </tr>
   </tbody>
 </template>
-
 <style scoped lang="css">
 td {
   border: 1px var(--color-border-grey) solid;

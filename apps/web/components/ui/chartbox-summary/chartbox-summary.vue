@@ -1,14 +1,21 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { usePortfolioStore } from '@/stores/portfolioStore';
+import { calculateInvested, formatAmount, type ITransaction } from '@/utils/index';
 
 const store = usePortfolioStore();
+
+const invested = computed(() => {
+  const assets = (store.activePortfolio?.assets ?? []) as ITransaction[][];
+  return assets.reduce((sum, transactions) => sum + calculateInvested(transactions), 0);
+});
 </script>
 
 <template>
   <div class="chartbox-wrapper">
     <div class="name">{{ store.activePortfolio.portfolioName }}</div>
-    <div class="total">$5000</div>
-    <div>24h P/L</div>
+    <div class="total">{{ formatAmount(invested) }}</div>
+    <div>Invested</div>
   </div>
 </template>
 

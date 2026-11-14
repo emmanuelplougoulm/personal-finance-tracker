@@ -1,48 +1,25 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import AssetBody from '@/components/ui/assets-table/asset-body.vue';
-import { computed, defineProps } from 'vue';
-import { calculateTokenHoldings, calculateAvgBuyPrice } from '@/utils/index';
+import {
+  calculateTokenHoldings,
+  calculateAvgBuyPrice,
+  calculateInvested,
+  type ITransaction
+} from '@/utils/index';
 
-const props = defineProps({
-  assets: {
-    type: Array<object>,
-    required: true
-  }
-});
+const props = defineProps<{
+  assets: ITransaction[][];
+}>();
 
-export interface ITransaction {
-  __v?: number;
-  _id?: string;
-  amount: number;
-  asset: string;
-  currency: string;
-  date: string;
-  fees: number;
-  portfolioId: string;
-  price: number;
-  transactionId: string;
-  type: string;
-}
-
-// console.log('assets', props.assets);
-
-const displayReadyAssets = computed(() => {
-  return props.assets.map((transactionArray: any) => {
-    const tokenHoldings = calculateTokenHoldings(transactionArray);
-    const avgBuyPrice = calculateAvgBuyPrice(transactionArray);
-
-    // console.log('transactionArray', transactionArray);
-
-    return {
-      name: transactionArray[0].asset,
-      avgBuyPrice: avgBuyPrice,
-      holdings: {
-        totalToken: tokenHoldings,
-        totalValue: 'holdings * current price'
-      }
-    };
-  });
-});
+const displayReadyAssets = computed(() =>
+  props.assets.map((transactions) => ({
+    name: transactions[0].asset,
+    holdings: calculateTokenHoldings(transactions),
+    avgBuyPrice: calculateAvgBuyPrice(transactions),
+    invested: calculateInvested(transactions)
+  }))
+);
 </script>
 
 <template>
@@ -51,19 +28,15 @@ const displayReadyAssets = computed(() => {
       <thead>
         <tr>
           <th>Name</th>
-          <th>Price</th>
-          <!-- <th>1h%</th>
-          <th>24h%</th>
-          <th>7d%</th> -->
           <th>Holdings</th>
           <th>Avg Buy Price</th>
-          <th>Profit/Loss</th>
+          <th>Invested</th>
         </tr>
       </thead>
       <AssetBody
-        v-for="(displayReadyAsset, index) in displayReadyAssets"
+        v-for="displayReadyAsset in displayReadyAssets"
+        :key="displayReadyAsset.name"
         :asset="displayReadyAsset"
-        :key="index"
       />
     </table>
   </div>
