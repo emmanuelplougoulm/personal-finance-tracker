@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "format": "prettier . --write",
-    "test": "pnpm --filter personal-finance-tracker-web test"
+    "test": "pnpm --filter personal-finance-tracker-web --filter api test"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

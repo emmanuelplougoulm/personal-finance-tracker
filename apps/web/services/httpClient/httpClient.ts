@@ -17,7 +17,8 @@ export const httpClient = (endpoint: string, customOptions = {}) => {
     } else {
       const { message } = await response.json();
 
-      throw new Error(message);
+      // ValidationPipe errors come back as an array of messages.
+      throw new Error(Array.isArray(message) ? message.join(', ') : message);
     }
   }
   )

@@ -55,7 +55,7 @@ export MONGO_URI="mongodb://localhost:27017/personal-finance-tracker"
 pnpm test
 ```
 
-Runs the Vitest unit tests for the portfolio calculations. `pnpm lint` runs ESLint on the whole workspace.
+Runs the Vitest suites: unit tests for the portfolio calculations, and API tests that exercise the NestJS endpoints with supertest against an in-memory MongoDB (no local database needed). `pnpm lint` runs ESLint on the whole workspace.
 
 ### Run
 

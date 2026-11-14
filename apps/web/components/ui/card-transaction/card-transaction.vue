@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { usePortfolioStore } from '@/stores/portfolioStore';
 import { createTransaction } from '@/services/transactions/transactions.service';
 import { getPortfolioById } from '@/services/portfolios/portfolios.service';
@@ -37,26 +37,29 @@ function getInitialState() {
   };
 }
 
-let state = reactive(getInitialState());
+const state = reactive(getInitialState());
+const errorMessage = ref('');
 
 const handleNewTransaction = async () => {
-  const { quantity, ...rest } = state;
+  const { quantity, price, fees, ...rest } = state;
   const newTransaction = {
     ...rest,
     amount: Number(quantity),
+    price: Number(price),
+    fees: Number(fees || 0),
     portfolioId: activePortfolioId.value,
     asset: state.asset.value
   };
-  const response = await createTransaction(newTransaction);
+  errorMessage.value = '';
 
-  if (response.transactionId) {
-    const response = await getPortfolioById(activePortfolioId.value);
-    portfolioStore.setActivePortfolio(response);
+  try {
+    await createTransaction(newTransaction);
+    portfolioStore.setActivePortfolio(await getPortfolioById(activePortfolioId.value));
 
-    state = reactive(getInitialState());
+    Object.assign(state, getInitialState());
     emit('collapse');
-  } else {
-    console.log('error with transaction');
+  } catch (error) {
+    errorMessage.value = error instanceof Error ? error.message : 'Could not save the transaction';
   }
 };
 
@@ -84,6 +87,7 @@ let optionsCoins = computed(() => {
       <BaseInput v-model="state.fees" :label="'Fees'" />
       <button @click="handleNewTransaction">Validate</button>
     </div>
+    <p v-if="errorMessage" class="error-message" role="alert">{{ errorMessage }}</p>
   </div>
 </template>
 
@@ -112,5 +116,10 @@ let optionsCoins = computed(() => {
   width: 100%;
   height: 100%;
   margin-top: 1rem;
+}
+.error-message {
+  color: #8b0000;
+  font-weight: 600;
+  margin-top: 0.5rem;
 }
 </style>

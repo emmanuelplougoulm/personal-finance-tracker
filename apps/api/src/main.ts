@@ -2,14 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { dbConnection } from './db';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
+import { setupApp } from './app/setup';
 
 async function bootstrap() {
   await dbConnection();
 
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  setupApp(app);
 
   const config = new DocumentBuilder()
     .setTitle('Personal Finance Tracker API')

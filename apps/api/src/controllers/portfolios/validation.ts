@@ -1,27 +1,28 @@
 import { Type } from 'class-transformer';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsArray, IsNotEmpty, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ITransferPayload } from '../../types';
 
-
 export class CreatePortfolioInput {
-  @IsString() @IsNotEmpty()
+  @IsString()
+  @IsNotEmpty()
   portfolioName: string;
 
+  @IsOptional()
   @IsString()
-  portfolioId: string;
+  timeCreated?: string;
 
+  @IsOptional()
   @IsString()
-  timeCreated: string;
+  timeUpdated?: string;
 
-  @IsString()
-  timeUpdated: string;
-
-  @IsString()
-  assets: object[];
+  @IsOptional()
+  @IsArray()
+  assets?: object[];
 }
 
 export class CreatePortfolioPayload implements ITransferPayload {
-  @IsNotEmpty()
+  @IsObject()
+  @ValidateNested()
   @Type(() => CreatePortfolioInput)
   input: CreatePortfolioInput;
 }
