@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import Portfolio from '../models/portfolio';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 import { IPortfolio } from 'src/types/index';
 import { TransactionService } from "../services/transaction.service";
 import { formatTransactionsByAssets } from "../utils/format";
@@ -21,7 +21,7 @@ export class PortfoliosService {
 
             if (existingPortfolio) throw new BadRequestException('Portfolio already exists')
 
-            const portfolioId = uuidv4();
+            const portfolioId = randomUUID();
             const newPortfolio = await new Portfolio({
                 ...portfolioData,
                 portfolioId

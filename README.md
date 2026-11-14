@@ -27,7 +27,7 @@ packages/
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20.19+ or 22.12+
 - pnpm 8: run `corepack enable` to use the version pinned in `package.json`, or `npm install -g pnpm@8` if corepack fails on your Node version
 - A MongoDB instance (local or Atlas)
 
@@ -49,6 +49,14 @@ The API reads its configuration from environment variables:
 ```bash
 export MONGO_URI="mongodb://localhost:27017/personal-finance-tracker"
 ```
+
+### Test
+
+```bash
+pnpm test
+```
+
+Runs the Vitest unit tests for the portfolio calculations.
 
 ### Run
 
@@ -76,5 +84,5 @@ Turborepo starts both apps in parallel:
 
 Work in progress.
 
-- Working end to end: creating portfolios, logging buy/sell transactions, holdings and average buy price per asset.
-- Not done yet: live prices and profit/loss (CoinMarketCap), the dashboard page, and the portfolio total.
+- Working end to end: creating portfolios, logging buy/sell transactions, and per asset: holdings, quantity-weighted average buy price and amount invested (fees included). The portfolio header shows the total invested.
+- Not done yet: live prices, current value and profit/loss (CoinMarketCap), and the dashboard page.

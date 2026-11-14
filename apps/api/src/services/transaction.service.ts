@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import Transaction from '../models/transaction';
 import { ITransaction } from 'src/types/index';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class TransactionService {
@@ -11,7 +11,7 @@ export class TransactionService {
             // const existingTransaction = await Transaction.findOne({ transactionId })
             // if (existingTransaction) throw new BadRequestException('Transaction already exists')
 
-            const transactionId = uuidv4();
+            const transactionId = randomUUID();
             transactionData.transactionId = transactionId
             const newTransaction = await new Transaction(transactionData).save();
 
