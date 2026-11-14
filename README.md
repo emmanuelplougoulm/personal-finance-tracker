@@ -10,14 +10,14 @@ A personal finance app, built as a side project. Its first feature is a crypto p
 | Frontend | Nuxt 3, Vue 3 (Composition API), Pinia, TypeScript       |
 | Backend  | NestJS, Mongoose, Swagger, Winston                       |
 | Database | MongoDB                                                  |
-| Data     | CoinMarketCap API (coin listings)                        |
+| Data     | Static coin list (CoinMarketCap integration in progress) |
 | Tooling  | ESLint (shared config package), Prettier, Husky          |
 
 ## Repository layout
 
 ```
 apps/
-  web/                    Nuxt 3 front end (dashboard, portfolio views)
+  web/                    Nuxt 3 front end (portfolio view, dashboard placeholder)
   api/                    NestJS REST API (portfolios, transactions)
 packages/
   eslint-config-custom/   ESLint config shared across the workspace
@@ -28,9 +28,8 @@ packages/
 ### Prerequisites
 
 - Node.js 18+
-- pnpm 8 (`corepack enable` picks up the version pinned in `package.json`)
+- pnpm 8: run `corepack enable` to use the version pinned in `package.json`, or `npm install -g pnpm@8` if corepack fails on your Node version
 - A MongoDB instance (local or Atlas)
-- A CoinMarketCap API key (free tier is enough)
 
 ### Install
 
@@ -42,14 +41,13 @@ pnpm install
 
 The API reads its configuration from environment variables:
 
-| Variable          | Description                     |
-| ----------------- | ------------------------------- |
-| `MONGO_URI`       | MongoDB connection string       |
-| `CMC_PRO_API_KEY` | CoinMarketCap API key           |
+| Variable          | Required | Description                                          |
+| ----------------- | -------- | ---------------------------------------------------- |
+| `MONGO_URI`       | Yes      | MongoDB connection string                            |
+| `CMC_PRO_API_KEY` | No       | CoinMarketCap API key, for the upcoming live prices  |
 
 ```bash
 export MONGO_URI="mongodb://localhost:27017/personal-finance-tracker"
-export CMC_PRO_API_KEY="<your-key>"
 ```
 
 ### Run
@@ -60,7 +58,7 @@ pnpm dev
 
 Turborepo starts both apps in parallel:
 
-- Web app: http://localhost:3000
+- Web app: http://localhost:3000 (opens the portfolio view)
 - API: http://localhost:9000, with Swagger docs at http://localhost:9000/api
 
 ## API overview
@@ -76,4 +74,7 @@ Turborepo starts both apps in parallel:
 
 ## Status
 
-Work in progress. The portfolio and transaction flows work end to end; the dashboard UI is still being polished.
+Work in progress.
+
+- Working end to end: creating portfolios, logging buy/sell transactions, holdings and average buy price per asset.
+- Not done yet: live prices and profit/loss (CoinMarketCap), the dashboard page, and the portfolio total.
