@@ -47,7 +47,11 @@ const closePanel = () => {
   </div>
   <ClientOnly>
     <Teleport to="#modal-root">
-      <ModalDeletePortfolio v-if="isModalDeletePFOpen" @modal-close="toggleModalDeletePF" />
+      <ModalDeletePortfolio
+        v-if="isModalDeletePFOpen"
+        :title="'Delete portfolio'"
+        @modal-close="toggleModalDeletePF"
+      />
     </Teleport>
   </ClientOnly>
 </template>

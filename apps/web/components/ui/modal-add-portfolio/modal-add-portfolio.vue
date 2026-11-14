@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import dayjs from 'dayjs';
 import BaseModal from '@/components/commons/base-modal/base-modal.vue';
 import BaseInput from '@/components/commons/base-input/base-input.vue';
-import { createPortfolio } from '@/services/portfolios/portfolios.service';
-import { getPortfolios } from '@/services/portfolios/portfolios.service';
+import {
+  createPortfolio,
+  getPortfolios,
+  getPortfolioById
+} from '@/services/portfolios/portfolios.service';
 import { usePortfolioStore } from '@/stores/portfolioStore';
 
 const portfolioStore = usePortfolioStore();
@@ -13,41 +16,55 @@ defineProps({
   title: { type: String, default: '' }
 });
 
-const timeNow = dayjs();
+const emit = defineEmits(['modal-close']);
 
 const portfolioState = reactive({
   portfolioName: '',
-  timeCreated: timeNow,
+  timeCreated: dayjs(),
   timeUpdated: '',
   assets: []
 });
 
-const emit = defineEmits(['modal-close']);
+const errorMessage = ref('');
+const isSubmitting = ref(false);
+const canSubmit = computed(() => portfolioState.portfolioName.trim() !== '' && !isSubmitting.value);
 
 const handleCreatePortfolio = async () => {
-  const response = await createPortfolio(portfolioState);
+  if (!canSubmit.value) return;
+  errorMessage.value = '';
+  isSubmitting.value = true;
 
-  if (response.portfolioId) {
-    // toast.add({ title: 'Portfolio has been successfully created' });
+  try {
+    const { portfolioId } = await createPortfolio(portfolioState);
 
-    const allPortfolios = await getPortfolios();
-    portfolioStore.setPortfolios(allPortfolios);
-    portfolioStore.setActivePortfolio(allPortfolios[0]);
-  } else {
-    // toast.add({ title: 'Error' });
+    portfolioStore.setPortfolios(await getPortfolios());
+    portfolioStore.setActivePortfolio(await getPortfolioById(portfolioId));
+    emit('modal-close');
+  } catch (error) {
+    errorMessage.value = error instanceof Error ? error.message : 'Could not create the portfolio';
+  } finally {
+    isSubmitting.value = false;
   }
-  emit('modal-close');
 };
 </script>
 
 <template>
-  <BaseModal>
+  <BaseModal @modal-close="emit('modal-close')">
     <template #header>{{ title }}</template>
     <template #content>
-      <BaseInput v-model="portfolioState.portfolioName" />
+      <BaseInput v-model="portfolioState.portfolioName" @keyup.enter="handleCreatePortfolio" />
+      <p v-if="errorMessage" class="error-message" role="alert">{{ errorMessage }}</p>
     </template>
     <template #footer>
-      <button @click="handleCreatePortfolio">Validate</button>
+      <button :disabled="!canSubmit" @click="handleCreatePortfolio">Validate</button>
     </template>
   </BaseModal>
 </template>
+
+<style scoped>
+.error-message {
+  color: #8b0000;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+</style>

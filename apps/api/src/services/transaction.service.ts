@@ -6,28 +6,18 @@ import { randomUUID } from 'node:crypto';
 @Injectable()
 export class TransactionService {
     async createOneTransaction(transactionData: ITransaction): Promise<object> {
-        try {
-            // This is not relevant, figure out how to check for existing transaction
-            // const existingTransaction = await Transaction.findOne({ transactionId })
-            // if (existingTransaction) throw new BadRequestException('Transaction already exists')
+        // This is not relevant, figure out how to check for existing transaction
+        // const existingTransaction = await Transaction.findOne({ transactionId })
+        // if (existingTransaction) throw new BadRequestException('Transaction already exists')
 
-            const transactionId = randomUUID();
-            transactionData.transactionId = transactionId
-            const newTransaction = await new Transaction(transactionData).save();
+        const transactionId = randomUUID();
+        transactionData.transactionId = transactionId
+        const newTransaction = await new Transaction(transactionData).save();
 
-            return { result: { transactionId: newTransaction['transactionId'] } }
-        } catch (err) {
-            console.log('err', err)
-            throw err
-        }
+        return { result: { transactionId: newTransaction['transactionId'] } }
     }
     async getOnePortfolioTransactions(portfolioId: string): Promise<object> {
-        try {
-            const transactions = await Transaction.find({ portfolioId });
-            return { result: { transactions } }
-        } catch (err) {
-            console.log('err', err)
-            throw err
-        }
+        const transactions = await Transaction.find({ portfolioId });
+        return { result: { transactions } }
     }
 }

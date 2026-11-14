@@ -15,59 +15,45 @@ interface AggregatedPortfolio {
 export class PortfoliosService {
     constructor(private readonly transactionService: TransactionService) { }
     async createPortfolio(portfolioData: IPortfolio): Promise<object> {
-        try {
-            const { portfolioName } = portfolioData;
-            const existingPortfolio = await Portfolio.findOne({ portfolioName })
+        const portfolioName = portfolioData.portfolioName?.trim();
+        if (!portfolioName) throw new BadRequestException('Portfolio name is required')
 
-            if (existingPortfolio) throw new BadRequestException('Portfolio already exists')
+        const existingPortfolio = await Portfolio.findOne({ portfolioName })
 
-            const portfolioId = randomUUID();
-            const newPortfolio = await new Portfolio({
-                ...portfolioData,
-                portfolioId
-            }).save();
-            return { result: { portfolioId: newPortfolio['portfolioId'] } }
-        }
-        catch (error) {
-            console.log(error)
-        }
+        if (existingPortfolio) throw new BadRequestException('Portfolio already exists')
+
+        const portfolioId = randomUUID();
+        const newPortfolio = await new Portfolio({
+            ...portfolioData,
+            portfolioName,
+            portfolioId
+        }).save();
+        return { result: { portfolioId: newPortfolio['portfolioId'] } }
     }
     async getPortfolios(): Promise<object> {
-        try {
-            const allPortfolios = await Portfolio.find();
-            return { result: allPortfolios }
-        } catch (error) {
-            console.log(error)
-        }
+        const allPortfolios = await Portfolio.find();
+        return { result: allPortfolios }
     }
     async getPortfolioById(id: string): Promise<object> {
-        try {
-            const portfolio: AggregatedPortfolio | null = await Portfolio.findOne({ portfolioId: id });
+        const portfolio: AggregatedPortfolio | null = await Portfolio.findOne({ portfolioId: id });
 
-            if (portfolio) {
-                const transactions: any = await this.transactionService.getOnePortfolioTransactions(id);
-                const sortedTransactions = formatTransactionsByAssets(transactions.result.transactions);
+        if (portfolio) {
+            const transactions: any = await this.transactionService.getOnePortfolioTransactions(id);
+            const sortedTransactions = formatTransactionsByAssets(transactions.result.transactions);
 
-                const updatedPortfolio: AggregatedPortfolio = {
-                    ...portfolio.toObject(),
-                    assets: sortedTransactions
-                }
-                return { result: { ...updatedPortfolio } }
-            } else {
-                return { return: null }
+            const updatedPortfolio: AggregatedPortfolio = {
+                ...portfolio.toObject(),
+                assets: sortedTransactions
             }
-        } catch (error) {
-            console.log(error)
+            return { result: { ...updatedPortfolio } }
+        } else {
+            return { return: null }
         }
     }
     async deletePortfolioById(id: string): Promise<object> {
-        try {
-            const portfolio = await Portfolio.deleteOne({ portfolioId: id });
-            const { deletedCount } = portfolio;
+        const portfolio = await Portfolio.deleteOne({ portfolioId: id });
+        const { deletedCount } = portfolio;
 
-            return { result: { deletedCount } }
-        } catch (error) {
-            console.log(error)
-        }
+        return { result: { deletedCount } }
     }
 }

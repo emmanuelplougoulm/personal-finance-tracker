@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import BaseModal from '@/components/commons/base-modal/base-modal.vue';
-import { deletePortfolioById } from '@/services/portfolios/portfolios.service';
+import {
+  deletePortfolioById,
+  getPortfolios,
+  getPortfolioById
+} from '@/services/portfolios/portfolios.service';
 import { usePortfolioStore } from '@/stores/portfolioStore';
 
 defineProps({
@@ -10,16 +14,21 @@ defineProps({
 const emit = defineEmits(['modal-close']);
 
 const portfolioStore = usePortfolioStore();
-const id = portfolioStore.active.portfolioId;
 
 const handleDeletePortfolio = async () => {
-  await deletePortfolioById(id);
+  await deletePortfolioById(portfolioStore.active.portfolioId);
+
+  const remaining = await getPortfolios();
+  portfolioStore.setPortfolios(remaining);
+  portfolioStore.setActivePortfolio(
+    remaining.length ? await getPortfolioById(remaining[0].portfolioId) : {}
+  );
   emit('modal-close');
 };
 </script>
 
 <template>
-  <BaseModal>
+  <BaseModal @modal-close="emit('modal-close')">
     <template #header>{{ title }}</template>
     <template #content>
       <p>Are you sure you want to delete this portfolio?</p>

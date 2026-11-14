@@ -1,4 +1,3 @@
- 
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { TransactionService } from '../../services/transaction.service';
 import * as val from './validation';
@@ -8,21 +7,10 @@ export class TransactionController {
     constructor(private readonly transactionService: TransactionService) { }
     @Post()
     async createTransaction(@Body() payload: val.CreateTransactionPayload): Promise<object> {
-        try {
-            const { input } = payload;
-            return await this.transactionService.createOneTransaction(input)
-        } catch (err) {
-            // implement an errorHandler here
-            return err;
-        }
+        return this.transactionService.createOneTransaction(payload.input);
     }
     @Get('/:portfolioId')
-    async getOnePortfolioTransactions(@Param('portfolioId') portfolioId: string): Promise<any> {
-        try {
-            return this.transactionService.getOnePortfolioTransactions(portfolioId)
-        } catch (err) {
-            // implement an errorHandler here
-            return err;
-        }
+    async getOnePortfolioTransactions(@Param('portfolioId') portfolioId: string): Promise<object> {
+        return this.transactionService.getOnePortfolioTransactions(portfolioId);
     }
 }
